@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Alibori\LaravelDddDomainResources\Commands;
 
 use Illuminate\Console\Command;

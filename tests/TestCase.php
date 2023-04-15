@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Alibori\LaravelDddDomainResources\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,7 +26,7 @@ class TestCase extends Orchestra
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
 
