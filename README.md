@@ -1,8 +1,7 @@
 # Laravel DDD Domain Resources
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/alibori/laravel-ddd-domain-resources.svg?style=flat-square)](https://packagist.org/packages/alibori/laravel-ddd-domain-resources)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/alibori/laravel-ddd-domain-resources/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/alibori/laravel-ddd-domain-resources/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/alibori/laravel-ddd-domain-resources/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/alibori/laravel-ddd-domain-resources/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![run-tests](https://github.com/alibori/laravel-ddd-domain-resources/actions/workflows/run-tests.yml/badge.svg)](https://github.com/alibori/laravel-ddd-domain-resources/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/alibori/laravel-ddd-domain-resources.svg?style=flat-square)](https://packagist.org/packages/alibori/laravel-ddd-domain-resources)
 
 Package to generate domain resources for a Laravel DDD application.
@@ -12,7 +11,7 @@ Package to generate domain resources for a Laravel DDD application.
 You can install the package via composer:
 
 ```bash
-composer require alibori/laravel-ddd-domain-resources
+composer require alibori/laravel-ddd-domain-resources --dev
 ```
 
 You can publish the config file with:
@@ -24,15 +23,54 @@ php artisan vendor:publish --tag="ddd-domain-resources-config"
 This is the contents of the published config file:
 
 ```php
+<?php
+
+declare(strict_types=1);
+
+// config for Alibori/LaravelDddDomainResources package
 return [
+    /**
+     * Here goes the path to your DDD Domains folder.
+     */
+    'domains_path' => 'app\\Domains',
+    /**
+     * Here goes all your desired DDD Domain Resources configuration.
+     */
+    'domains' => [
+        /**
+         * 'user' => [
+         *     'name' => 'User',
+         *     'namespace' => 'App\\Domains\\User',
+         * ],
+         */
+    ]
 ];
 ```
 
 ## Usage
 
+### Generate a domain directory structure
+
+Once the package's config file is published and filled, you can generate a domain directory structure with the following command:
+
 ```php
-$laravelDddDomainResources = new Alibori\LaravelDddDomainResources();
-echo $laravelDddDomainResources->echoPhrase('Hello, Alibori!');
+php artisan domain:generate user --scaffold
+```
+
+This will generate the following directory structure:
+
+```
+├── app
+│   └── Domains
+│       └── User
+│           ├── Application
+│           ├── Domain
+│           │   ├── Contracts
+│           │   ├── Events
+│           │   ├── Exceptions
+│           │   ├── ValueObjects
+│           ├── Infrastructure
+│           │   ├── Repositories
 ```
 
 ## Testing

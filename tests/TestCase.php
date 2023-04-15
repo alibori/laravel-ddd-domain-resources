@@ -4,22 +4,12 @@ declare(strict_types=1);
 
 namespace Alibori\LaravelDddDomainResources\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Alibori\LaravelDddDomainResources\LaravelDddDomainResourcesServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Alibori\\LaravelDddDomainResources\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
-    }
-
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             LaravelDddDomainResourcesServiceProvider::class,
@@ -28,11 +18,13 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app): void
     {
-        config()->set('database.default', 'testing');
+        config()->set('ddd-domain-resources.domains_path', '.');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-ddd-domain-resources_table.php.stub';
-        $migration->up();
-        */
+        config()->set('ddd-domain-resources.domains', [
+            'user' => [
+                'name' => 'User',
+                'namespace' => 'App\\Domains\\User',
+            ],
+        ]);
     }
 }
