@@ -28,32 +28,43 @@ class LaravelDddDomainResourcesCommand extends Command
         $domain_data = $domains_array[$domain];
 
         if ($this->option(key: 'scaffold')) {
-            $this->info(string: 'Generating Domain Scaffold for '.$domain_data['name'].' \'s Domain...');
+            $this->info(string: 'Generating Domain Scaffold for '.$domain_data['name'].'\'s Domain...');
 
-            // Generate Generic Domain directory
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name']);
+            // Check if Domain directory already exists
+            if (is_dir(filename: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'])) {
+                $this->error(string: 'Domain directory already exists, aborting...');
+                return self::FAILURE;
+            }
 
-            // Generate Application directory
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Application');
-
-            // Generate Domain directory
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain');
-
-            // Generate Contracts/Events/Exceptions/Value Objects directory inside Domain directory
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'Contracts');
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'Events');
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'Exceptions');
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'ValueObjects');
-
-            // Generate Infrastructure directory
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Infrastructure');
-
-            // Generate Repositories directory inside Infrastructure directory
-            mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Infrastructure'.'\\'.'Repositories');
+            $this->generateDomainScaffold(domain_data: $domain_data);
 
             $this->info(string: 'Domain Scaffold generated successfully!');
         }
 
         return self::SUCCESS;
+    }
+
+    private function generateDomainScaffold(array $domain_data): void
+    {
+        // Generate Generic Domain directory
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name']);
+
+        // Generate Application directory
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Application');
+
+        // Generate Domain directory
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain');
+
+        // Generate Contracts/Events/Exceptions/Value Objects directory inside Domain directory
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'Contracts');
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'Events');
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'Exceptions');
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Domain'.'\\'.'ValueObjects');
+
+        // Generate Infrastructure directory
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Infrastructure');
+
+        // Generate Repositories directory inside Infrastructure directory
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Infrastructure'.'\\'.'Repositories');
     }
 }

@@ -12,9 +12,22 @@ it(description: 'can execute the command', closure: function (): void {
 // Test that the command can be executed with a valid domain and scaffold option
 it(description: 'can execute the command with a valid domain and scaffold option', closure: function (): void {
     $this->artisan(command: 'domain:generate user --scaffold')
-        ->expectsOutput('Generating Domain Scaffold for User \'s Domain...')
+        ->expectsOutput('Generating Domain Scaffold for User\'s Domain...')
         ->expectsOutput('Domain Scaffold generated successfully!')
         ->assertExitCode(0);
+
+    // Delete the generated User directory and its contents
+    deleteAll(dir: config(key: 'ddd-domain-resources.domains_path').'\\'.'User');
+});
+
+// Test that the command will abort if the domain directory already exists
+it(description: 'will abort if the domain directory already exists', closure: function (): void {
+    // Create a User directory
+    mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.'User');
+
+    $this->artisan(command: 'domain:generate user --scaffold')
+        ->expectsOutput('Domain directory already exists, aborting...')
+        ->assertExitCode(1);
 
     // Delete the generated User directory and its contents
     deleteAll(dir: config(key: 'ddd-domain-resources.domains_path').'\\'.'User');
