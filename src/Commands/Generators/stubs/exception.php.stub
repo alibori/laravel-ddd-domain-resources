@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+final class {{ class }} extends Exception
+{
+    /**
+     * Report the exception.
+     *
+     * @return bool|null
+     */
+    public function report(): ?bool
+    {
+        //
+    }
+
+    /**
+     * Render the exception into an HTTP response.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function render(Request $request): Response
+    {
+        return response(/* ... */);
+    }
+}

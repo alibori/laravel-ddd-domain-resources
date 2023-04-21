@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Alibori\LaravelDddDomainResources\Commands;
 
+use Alibori\LaravelDddDomainResources\Commands\Generators\LaravelDddDomainResourcesGeneratorCommand;
 use Illuminate\Console\Command;
 
 class LaravelDddDomainResourcesCommand extends Command
 {
-    public $signature = 'domain:generate {domain} {--scaffold}';
+    public $signature = 'domain:generate {domain} {file?} {--scaffold}';
 
     public $description = 'Command to generate basic DDD Domain Resources';
 
@@ -27,7 +28,7 @@ class LaravelDddDomainResourcesCommand extends Command
 
         $domain_data = $domains_array[$domain];
 
-        if ($this->option(key: 'scaffold')) {
+        if ($this->option(key: 'scaffold') && ! $this->argument(key: 'file')) {
             $this->info(string: 'Generating Domain Scaffold for '.$domain_data['name'].'\'s Domain...');
 
             // Check if Domain directory already exists
@@ -39,6 +40,47 @@ class LaravelDddDomainResourcesCommand extends Command
             $this->generateDomainScaffold(domain_data: $domain_data);
 
             $this->info(string: 'Domain Scaffold generated successfully!');
+        } elseif ($this->argument(key: 'file') && ! $this->option(key: 'scaffold')) {
+            switch ($this->argument(key: 'file')) {
+                case 'use_case':
+                    $name = $this->ask(question: 'Enter the name of the Use Case');
+                    break;
+                case 'contract':
+                    $name = $this->ask(question: 'Enter the name of the Contract');
+                    break;
+                case 'event':
+                    $name = $this->ask(question: 'Enter the name of the Event');
+                    break;
+                case 'exception':
+                    $name = $this->ask(question: 'Enter the name of the Exception');
+                    break;
+                case 'value_object':
+                    $name = $this->ask(question: 'Enter the name of the Value Object');
+                    break;
+                case 'repository':
+                    $name = $this->ask(question: 'Enter the name of the Repository');
+                    break;
+                case 'controller':
+                    $name = $this->ask(question: 'Enter the name of the Controller');
+                    break;
+                default:
+                    $this->error(string: 'Invalid file type!');
+                    return self::FAILURE;
+            }
+
+            $this->info(string: 'Generating '.$name.' for '.$domain_data['name'].'\'s Domain...');
+
+            $this->call(command: LaravelDddDomainResourcesGeneratorCommand::class, arguments: [
+                'type' => $this->argument(key: 'file'),
+                'name' => $name,
+                'namespace' => $domain_data['namespace'],
+            ]);
+        } elseif ( ! $this->argument(key: 'file') && ! $this->option(key: 'scaffold')) {
+            $this->error(string: 'You must specify a file type or use the --scaffold option!');
+            return self::FAILURE;
+        } else {
+            $this->error(string: 'You must specify a file type or use the --scaffold option, not both!');
+            return self::FAILURE;
         }
 
         return self::SUCCESS;

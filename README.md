@@ -6,6 +6,8 @@
 
 Package to generate domain resources for a Laravel DDD application.
 
+Keeping in mind that DDD architecture in a Laravel application has a lot of different approaches, this package is intended to be used as a vertical slice of a DDD implementation. Also, it has some basic stub files that can be customized to fit your needs.
+
 ## Installation
 
 You can install the package via composer:
@@ -47,6 +49,12 @@ return [
 ];
 ```
 
+Optionally, you can publish the stubs using
+
+```bash
+php artisan vendor:publish --tag="ddd-domain-resources-stubs"
+```
+
 ## Usage
 
 ### Generate a domain directory structure
@@ -72,6 +80,32 @@ This will generate the following directory structure:
 │           ├── Infrastructure
 │           │   ├── Repositories
 ```
+
+### Generate a domain resource
+
+In base of the previous directory structure, you can generate a domain resource file with the following command:
+
+```php
+php artisan domain:generate user {file-type}
+```
+
+Where `{file-type}` can be one of the following:
+
+- `use_case`
+- `contract`
+- `event`
+- `exception`
+- `value_object`
+- `repository`
+- `controller`
+
+For example, to generate a `UseCase` file, you can run the following command:
+
+```php
+php artisan domain:generate user use_case
+```
+
+When you run this command, you will be prompted to enter the name of the resource. For example, if you want to generate a `CreateUser` use case, you can enter `CreateUser` as the resource name.
 
 ## Testing
 

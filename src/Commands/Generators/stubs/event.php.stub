@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Foundation\Events\Dispatchable;
+
+final class {{ class }}
+{
+    use Dispatchable;
+
+    public function __construct()
+    {
+        //
+    }
+}
