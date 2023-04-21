@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-ddd-domain-resources` will be documented in this file.
 
-## 1.0.0 - 2023-04-XX
+## 1.0.0 - 2023-04-21
 
 ### Added
 

@@ -6,6 +6,8 @@
 
 Package to generate domain resources for a Laravel DDD application.
 
+Compatible with Laravel 9.x and 10.x.
+
 Keeping in mind that DDD architecture in a Laravel application has a lot of different approaches, this package is intended to be used as a vertical slice of a DDD implementation. Also, it has some basic stub files that can be customized to fit your needs.
 
 ## Installation
