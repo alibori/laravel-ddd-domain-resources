@@ -44,14 +44,17 @@ class LaravelDddDomainResourcesGeneratorCommand extends GeneratorCommand
         /** @var string $namespace */
         $namespace = $this->argument(key: 'namespace');
 
-        return match ($namespace) {
+        /** @var string $type */
+        $type = $this->argument(key: 'type');
+
+        return match ($type) {
             'use_case' => $namespace.'\\Application',
             'contract' => $namespace.'\\Domain\\Contracts',
             'event' => $namespace.'\\Domain\\Events',
             'exception' => $namespace.'\\Domain\\Exceptions',
             'value_object' => $namespace.'\\Domain\\ValueObjects',
             'repository' => $namespace.'\\Infrastructure\\Repositories',
-            'controller' => $namespace.'\\Infrastructure',
+            'controller' => $namespace.'\\Infrastructure\\Controllers',
             default => $namespace,
         };
     }

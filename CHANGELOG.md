@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-ddd-domain-resources` will be documented in this file.
 
+## 1.0.1 - 2023-05-16
+
+### Fixed
+
+-  Fixed the location of generated files.
+
 ## 1.0.0 - 2023-04-21
 
 ### Added

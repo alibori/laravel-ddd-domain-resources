@@ -108,5 +108,6 @@ class LaravelDddDomainResourcesCommand extends Command
 
         // Generate Repositories directory inside Infrastructure directory
         mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Infrastructure'.'\\'.'Repositories');
+        mkdir(directory: config(key: 'ddd-domain-resources.domains_path').'\\'.$domain_data['name'].'\\'.'Infrastructure'.'\\'.'Controllers');
     }
 }
